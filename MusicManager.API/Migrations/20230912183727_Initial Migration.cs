@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,7 +14,8 @@ namespace MusicManager.API.Migrations
                 name: "Bands",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Style = table.Column<int>(type: "int", nullable: false),
                     Money = table.Column<double>(type: "float", nullable: false)
@@ -29,10 +29,11 @@ namespace MusicManager.API.Migrations
                 name: "Albums",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descritpion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BandId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +50,8 @@ namespace MusicManager.API.Migrations
                 name: "Musicians",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MusicalInstrument = table.Column<int>(type: "int", nullable: false),
@@ -59,7 +61,7 @@ namespace MusicManager.API.Migrations
                     ComposingSkills = table.Column<int>(type: "int", nullable: false),
                     Mood = table.Column<int>(type: "int", nullable: false),
                     Fame = table.Column<int>(type: "int", nullable: false),
-                    BandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BandId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,11 +78,12 @@ namespace MusicManager.API.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Training = table.Column<int>(type: "int", nullable: false),
                     Sound = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    AlbumId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

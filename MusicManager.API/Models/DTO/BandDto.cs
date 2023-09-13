@@ -1,14 +1,14 @@
 ﻿using MusicManager.API.Models.Enums;
 
-namespace MusicManager.API.Models.Domain
+namespace MusicManager.API.Models.DTO
 {
-    public class Band
+    public class BandDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public Style Style { get; set; }
         public double Money { get; set; }
-        public virtual ICollection<Musician> Musicians { get; set; }
-        public virtual ICollection<Album> Albums { get; set; }
+        public virtual ICollection<MusicianDto> Musicians { get; set; }
+        public virtual ICollection<AlbumDto> Albums { get; set; }
     }
 }

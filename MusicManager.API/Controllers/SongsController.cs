@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Data;
 
 namespace MusicManager.API.Controllers
@@ -13,13 +12,6 @@ namespace MusicManager.API.Controllers
         public SongsController(MusicManagerDbContext dbContext)
         {
             this.dbContext = dbContext;
-        }
-
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var albums = dbContext.Songs.ToList();
-            return Ok(albums);
         }
     }
 }

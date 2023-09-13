@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Data;
-using MusicManager.API.Models.Domain;
-using MusicManager.API.Models.Enums;
 
 namespace MusicManager.API.Controllers
 {
@@ -16,14 +13,6 @@ namespace MusicManager.API.Controllers
         public MusiciansController(MusicManagerDbContext dbContext)
         {
             this.dbContext = dbContext;
-        }
-
-        // GET: https://localhost:postnumber/api/musicians
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var albums = dbContext.Musicians.ToList();
-            return Ok(albums);
         }
     }
 }

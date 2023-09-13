@@ -1,8 +1,8 @@
 ﻿using MusicManager.API.Models.Enums;
 
-namespace MusicManager.API.Models.Domain
+namespace MusicManager.API.Models.DTO
 {
-    public class Musician
+    public class MusicianDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,6 +15,6 @@ namespace MusicManager.API.Models.Domain
         public int Mood { get; set; }
         public int Fame { get; set; }
         public int BandId { get; set; }
-        public virtual Band Band { get; set; }
+        public virtual BandDto Band { get; set; }
     }
 }
