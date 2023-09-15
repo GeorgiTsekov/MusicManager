@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MusicManager.API.Data;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Models.Domain;
 using MusicManager.API.Models.DTO;
+using MusicManager.API.Repositories;
 
 namespace MusicManager.API.Controllers
 {
@@ -10,29 +10,21 @@ namespace MusicManager.API.Controllers
     [ApiController]
     public class BandsController : ControllerBase
     {
-        private readonly MusicManagerDbContext dbContext;
+        private readonly IBandRepository bandRepository;
+        private readonly IMapper mapper;
 
-        public BandsController(MusicManagerDbContext dbContext)
+        public BandsController(IBandRepository bandRepository, IMapper mapper)
         {
-            this.dbContext = dbContext;
+            this.bandRepository = bandRepository;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var bands = await dbContext.Bands.ToListAsync();
+            var bands = await bandRepository.GetAllAsync();
 
-            var bandDtos = new List<BandDto>();
-            foreach (var band in bands)
-            {
-                bandDtos.Add(new BandDto()
-                {
-                    Id = band.Id,
-                    Name = band.Name,
-                    Style = band.Style,
-                    Money = band.Money
-                });
-            }
+            var bandDtos = mapper.Map<List<BandDto>>(bands);
 
             return Ok(bandDtos);
         }
@@ -41,7 +33,7 @@ namespace MusicManager.API.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var band = await dbContext.Bands.FirstOrDefaultAsync(x => x.Id == id);
+            var band = await bandRepository.GetByIdAsync(id);
 
             if (band == null)
             {
@@ -54,23 +46,11 @@ namespace MusicManager.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBandRequestDto createBandRequestDto)
         {
-            var band = new Band
-            {
-                Name = createBandRequestDto.Name,
-                Style = createBandRequestDto.Style,
-                Money = createBandRequestDto.Money
-            };
+            var band = mapper.Map<Band>(createBandRequestDto);
 
-            await dbContext.Bands.AddAsync(band);
-            await dbContext.SaveChangesAsync();
+            band = await bandRepository.CreateAsync(band);
 
-            var bandDto = new BandDto
-            {
-                Id = band.Id,
-                Name = band.Name,
-                Style = band.Style,
-                Money = band.Money
-            };
+            var bandDto = mapper.Map<BandDto>(band);
 
             return CreatedAtAction(nameof(GetById), new { id = bandDto.Id }, bandDto);
         }
@@ -79,44 +59,30 @@ namespace MusicManager.API.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateBandRequestDto updateBandRequestDto)
         {
-            var band = await dbContext.Bands.FirstOrDefaultAsync(x => x.Id == id);
+            var band = mapper.Map<Band>(updateBandRequestDto);
+
+            band = await bandRepository.UpdateAsync(id, band);
 
             if (band == null)
             {
                 return NotFound();
             }
 
-            band.Name = updateBandRequestDto.Name;
-            band.Style = updateBandRequestDto.Style;
-
-            await dbContext.SaveChangesAsync();
-
-            var bandDto = new BandDto
-            {
-                Id = band.Id,
-                Name = band.Name,
-                Money = band.Money,
-                Style = band.Style
-            };
-
-            return Ok(bandDto);
+            return Ok(mapper.Map<BandDto>(band));
         }
 
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var band = await dbContext.Bands.FirstOrDefaultAsync(x => x.Id == id);
+            var band = await bandRepository.DeleteAsync(id);
 
             if (band == null)
             {
                 return NotFound();
             }
 
-            dbContext.Bands.Remove(band);
-            await dbContext.SaveChangesAsync();
-
-            return Ok();
+            return Ok(mapper.Map<BandDto>(band));
         }
     }
 }
