@@ -10,11 +10,6 @@ namespace MusicManager.API.Mappings
         {
             CreateMap<Band, BandDto>().ReverseMap();
             CreateMap<CreateBandRequestDto, Band>().ReverseMap();
-            CreateMap<UpdateBandRequestDto, Band>().ReverseMap();
-
-            //CreateMap<Band, BandDto>()
-            //    .ForMember(x => x.Name, opt => opt.MapFrom(x => x.FullName))
-            //    .ReverseMap();
         }
     }
 }
