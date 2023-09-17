@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
 using MusicManager.API.Mappings;
+using MusicManager.API.Models.Domain;
 using MusicManager.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MusicManagerDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("MusicManagerConnectionString")));
 
-builder.Services.AddScoped<IBandRepository, SQLBandRepository>();
+builder.Services.AddScoped <IDeletableEntityRepository<Band, int>, DeletableEntityRepository<Band, int>>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

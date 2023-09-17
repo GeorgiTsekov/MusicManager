@@ -1,12 +1,18 @@
-﻿namespace MusicManager.API.Models.Domain
+﻿using MusicManager.API.Common.Models;
+
+namespace MusicManager.API.Models.Domain
 {
-    public class Album
+    public class Album : BaseDeletableModel<int>
     {
-        public int Id { get; set; }
+        public Album()
+        {
+            this.Songs = new HashSet<Song>();
+        }
+
         public string Name { get; set; }
         public string Descritpion { get; set; }
         public int BandId { get; set; }
         public virtual Band Band { get; set; }
-        public virtual ICollection<Song> Songs { get; set; }
+        public virtual IEnumerable<Song> Songs { get; set; }
     }
 }
