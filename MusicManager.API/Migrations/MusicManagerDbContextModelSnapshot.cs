@@ -74,14 +74,14 @@ namespace MusicManager.API.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Energy")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<double>("Money")
-                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -97,11 +97,9 @@ namespace MusicManager.API.Migrations
 
             modelBuilder.Entity("MusicManager.API.Models.Domain.Musician", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Ambition")
                         .HasColumnType("int");
@@ -110,6 +108,9 @@ namespace MusicManager.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Charisma")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Clothing")
                         .HasColumnType("int");
 
                     b.Property<int>("ComposingSkills")
@@ -133,7 +134,7 @@ namespace MusicManager.API.Migrations
                     b.Property<int>("Mood")
                         .HasColumnType("int");
 
-                    b.Property<int>("MusicalInstrument")
+                    b.Property<int>("MusicalInstrumentType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -185,7 +186,7 @@ namespace MusicManager.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Training")
+                    b.Property<int>("TrainingLevel")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

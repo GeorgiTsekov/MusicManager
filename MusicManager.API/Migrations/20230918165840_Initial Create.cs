@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MusicManager.API.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace MusicManager.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Style = table.Column<int>(type: "int", nullable: false),
-                    Money = table.Column<double>(type: "float", nullable: false),
+                    Energy = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -59,17 +59,17 @@ namespace MusicManager.API.Migrations
                 name: "Musicians",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MusicalInstrument = table.Column<int>(type: "int", nullable: false),
                     Ambition = table.Column<int>(type: "int", nullable: false),
                     Talant = table.Column<int>(type: "int", nullable: false),
                     Charisma = table.Column<int>(type: "int", nullable: false),
                     ComposingSkills = table.Column<int>(type: "int", nullable: false),
                     Mood = table.Column<int>(type: "int", nullable: false),
                     Fame = table.Column<int>(type: "int", nullable: false),
+                    MusicalInstrumentType = table.Column<int>(type: "int", nullable: false),
+                    Clothing = table.Column<int>(type: "int", nullable: false),
                     BandId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -94,7 +94,7 @@ namespace MusicManager.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Training = table.Column<int>(type: "int", nullable: false),
+                    TrainingLevel = table.Column<int>(type: "int", nullable: false),
                     Sound = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AlbumId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
