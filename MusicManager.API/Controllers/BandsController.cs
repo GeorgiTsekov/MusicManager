@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MusicManager.API.Common.Repositories;
 using MusicManager.API.Models.Domain;
 using MusicManager.API.Models.DTO;
+using MusicManager.API.Repositories;
 
 namespace MusicManager.API.Controllers
 {
@@ -10,11 +10,11 @@ namespace MusicManager.API.Controllers
     [ApiController]
     public class BandsController : ControllerBase
     {
-        private readonly IDeletableEntityRepository<Band, int> bandRepository;
+        private readonly BandRepository bandRepository;
         private readonly IMapper mapper;
 
 
-        public BandsController(IDeletableEntityRepository<Band, int> bandRepository, IMapper mapper)
+        public BandsController(BandRepository bandRepository, IMapper mapper)
         {
             this.bandRepository = bandRepository;
             this.mapper = mapper;
@@ -49,7 +49,7 @@ namespace MusicManager.API.Controllers
         {
             var band = mapper.Map<Band>(createBandRequestDto);
 
-            band = await bandRepository.AddAsync(band);
+            band = await bandRepository.CreateAsync(band);
 
             var bandDto = mapper.Map<BandDto>(band);
 
