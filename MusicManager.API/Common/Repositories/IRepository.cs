@@ -7,7 +7,7 @@ namespace MusicManager.API.Common.Repositories
     {
         Task<IList<TEntity>> AllAsync();
         Task<IList<TEntity>> AllAsNoTrackingAsync();
-        Task<TEntity> AddAsync(TEntity entity);
+        Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> ByIdAsync(TKey id);
         void Update(TEntity entity);
         void Delete(TEntity entity);
