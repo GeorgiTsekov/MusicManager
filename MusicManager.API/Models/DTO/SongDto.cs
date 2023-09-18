@@ -1,15 +1,15 @@
 ﻿
-using MusicManager.API.Models.Enums;
+using MusicManager.API.Common.Models;
+using MusicManager.API.Models.Domain;
 
 namespace MusicManager.API.Models.DTO
 {
-    public class SongDto
+    public class SongDto : BaseDeletableModel<Guid>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public Training Training { get; set; }
-        public string Sound { get; set; }
+        public int TrainingLevel { get; set; }
+        public Dictionary<int, string> Sounds { get; set; }
         public int AlbumId { get; set; }
-        public virtual AlbumDto Album { get; set; }
+        public virtual Album Album { get; set; }
     }
 }

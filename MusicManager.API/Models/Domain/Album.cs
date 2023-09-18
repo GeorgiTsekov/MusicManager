@@ -13,6 +13,6 @@ namespace MusicManager.API.Models.Domain
         public string Descritpion { get; set; }
         public int BandId { get; set; }
         public virtual Band Band { get; set; }
-        public virtual IEnumerable<Song> Songs { get; set; }
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }

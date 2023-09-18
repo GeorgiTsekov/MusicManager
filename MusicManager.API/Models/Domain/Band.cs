@@ -1,4 +1,5 @@
 ﻿using MusicManager.API.Common.Models;
+using MusicManager.API.Common.Utils;
 using MusicManager.API.Models.Enums;
 
 namespace MusicManager.API.Models.Domain
@@ -9,12 +10,14 @@ namespace MusicManager.API.Models.Domain
         {
             this.Musicians = new HashSet<Musician>();
             this.Albums = new HashSet<Album>();
+            this.Energy = MMConstants.DEFAULT_ENERGY;
+            this.CreatedOn = DateTime.Now;
         }
 
         public string Name { get; set; }
         public Style Style { get; set; }
-        public double Money { get; set; }
-        public virtual IEnumerable<Musician> Musicians { get; set; }
-        public virtual IEnumerable<Album> Albums { get; set; }
+        public int Energy { get; private set; }
+        public virtual ICollection<Musician> Musicians { get; set; }
+        public virtual ICollection<Album> Albums { get; set; }
     }
 }
