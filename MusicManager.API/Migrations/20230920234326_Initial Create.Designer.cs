@@ -12,7 +12,7 @@ using MusicManager.API.Data;
 namespace MusicManager.API.Migrations
 {
     [DbContext(typeof(MusicManagerDbContext))]
-    [Migration("20230918165840_Initial Create")]
+    [Migration("20230920234326_Initial Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
