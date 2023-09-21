@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
 using MusicManager.API.Models.Domain;
@@ -19,6 +20,21 @@ namespace MusicManager.API.Repositories
         public override async Task<Musician> ByIdAsync(Guid id)
         {
             return await base.DbSet.Include(x => x.Band).FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+        }
+
+        public override async Task<Musician> CreateAsync(Musician entity)
+        {
+            var band = await base.Context.Bands.FirstOrDefaultAsync(x => x.Id == entity.BandId);
+
+            if (band == null)
+            {
+                return null;
+            }
+
+            band.Musicians.Add(entity);
+            await base.DbSet.AddAsync(entity);
+            base.Context.SaveChanges();
+            return entity;
         }
     }
 }

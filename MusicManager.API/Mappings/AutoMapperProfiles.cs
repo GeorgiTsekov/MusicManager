@@ -9,10 +9,12 @@ namespace MusicManager.API.Mappings
         public AutoMapperProfiles()
         {
             CreateMap<Band, BandDto>().ReverseMap();
+            CreateMap<Band, BandSingleDto>().ReverseMap();
             CreateMap<CreateBandRequestDto, Band>().ReverseMap();
             CreateMap<UpdateBandRequestDto, Band>().ReverseMap();
             CreateMap<Musician, MusicianDto>().ReverseMap();
             CreateMap<CreateMusicianRequestDto, Musician>().ReverseMap();
+            CreateMap<UpdateMusicianRequestDto, Musician>().ReverseMap();
         }
     }
 }

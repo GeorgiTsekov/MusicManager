@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MusicManager.API.Common.Repositories;
-using MusicManager.API.Data;
+using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Models.Domain;
 using MusicManager.API.Models.DTO;
 using MusicManager.API.Repositories;
@@ -49,18 +47,25 @@ namespace MusicManager.API.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> CreateAsync([FromBody] CreateMusicianRequestDto createBandRequestDto)
         {
             var musician = mapper.Map<Musician>(createBandRequestDto);
+
             await musicianRepository.CreateAsync(musician);
+
+            if (musician.Band == null)
+            {
+                return NotFound();
+            }
 
             var musicianDto = mapper.Map<MusicianDto>(musician);
 
             return Ok(musicianDto);
         }
 
-        // TODO: 
         [HttpPut]
+        [ValidateModel]
         [Route("{id:Guid}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateMusicianRequestDto updateBandRequestDto)
         {
@@ -71,15 +76,14 @@ namespace MusicManager.API.Controllers
                 return NotFound();
             }
 
-            //musician.Name = updateBandRequestDto.Name;
-            //musician.Style = updateBandRequestDto.Style;
+            musician.Name = updateBandRequestDto.Name;
+            musician.Clothing = updateBandRequestDto.Clothing;
 
-            //musicianRepository.Update(musician);
+            musicianRepository.Update(musician);
 
             return Ok(mapper.Map<MusicianDto>(musician));
         }
 
-        // TODO:
         [HttpDelete]
         [Route("{id:Guid}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Models.Domain;
 using MusicManager.API.Models.DTO;
 using MusicManager.API.Repositories;
@@ -25,7 +26,7 @@ namespace MusicManager.API.Controllers
         {
             var bands = await bandRepository.AllAsync();
 
-            var bandDtos = mapper.Map<List<BandDto>>(bands);
+            var bandDtos = mapper.Map<List<BandSingleDto>>(bands);
 
             return Ok(bandDtos);
         }
@@ -41,10 +42,13 @@ namespace MusicManager.API.Controllers
                 return NotFound();
             }
 
-            return Ok(band);
+            var bandDto = mapper.Map<BandSingleDto>(band);
+
+            return Ok(bandDto);
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> CreateAsync([FromBody] CreateBandRequestDto createBandRequestDto)
         {
             var band = mapper.Map<Band>(createBandRequestDto);
@@ -57,6 +61,7 @@ namespace MusicManager.API.Controllers
         }
 
         [HttpPut]
+        [ValidateModel]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateBandRequestDto updateBandRequestDto)
         {
