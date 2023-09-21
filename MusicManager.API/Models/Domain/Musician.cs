@@ -1,4 +1,5 @@
 ﻿using MusicManager.API.Common.Models;
+using MusicManager.API.Common.Utils;
 using MusicManager.API.Models.Enums;
 
 namespace MusicManager.API.Models.Domain
@@ -8,6 +9,10 @@ namespace MusicManager.API.Models.Domain
         public Musician()
         {
             this.CreatedOn = DateTime.Now;
+            this.Picture = "https://cdn.britannica.com/27/150327-050-CDB88DF6/Bono.jpg";
+            this.Ambition = new Random().Next(MMConstants.MIN_TALANT, MMConstants.MAX_TALANT);
+            this.Talant = new Random().Next(MMConstants.MIN_TALANT, MMConstants.MAX_TALANT);
+            this.Charisma = new Random().Next(MMConstants.MIN_TALANT, MMConstants.MAX_TALANT);
         }
 
         public string Name { get; set; }
