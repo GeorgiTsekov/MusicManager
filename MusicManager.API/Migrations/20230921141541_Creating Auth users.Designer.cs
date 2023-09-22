@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicManager.API.Data;
 
@@ -11,9 +12,11 @@ using MusicManager.API.Data;
 namespace MusicManager.API.Migrations
 {
     [DbContext(typeof(MusicManagerDbContext))]
-    partial class MusicManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230921141541_Creating Auth users")]
+    partial class CreatingAuthusers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,10 +105,6 @@ namespace MusicManager.API.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -157,10 +156,6 @@ namespace MusicManager.API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -302,9 +297,6 @@ namespace MusicManager.API.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ManagerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -316,8 +308,6 @@ namespace MusicManager.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
 
                     b.ToTable("Bands");
                 });
@@ -423,16 +413,6 @@ namespace MusicManager.API.Migrations
                     b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Models.Domain.Manager", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<int>("Money")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Manager");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -495,13 +475,6 @@ namespace MusicManager.API.Migrations
                     b.Navigation("Band");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Models.Domain.Band", b =>
-                {
-                    b.HasOne("MusicManager.API.Models.Domain.Manager", null)
-                        .WithMany("Bands")
-                        .HasForeignKey("ManagerId");
-                });
-
             modelBuilder.Entity("MusicManager.API.Models.Domain.Musician", b =>
                 {
                     b.HasOne("MusicManager.API.Models.Domain.Band", "Band")
@@ -534,11 +507,6 @@ namespace MusicManager.API.Migrations
                     b.Navigation("Albums");
 
                     b.Navigation("Musicians");
-                });
-
-            modelBuilder.Entity("MusicManager.API.Models.Domain.Manager", b =>
-                {
-                    b.Navigation("Bands");
                 });
 #pragma warning restore 612, 618
         }
