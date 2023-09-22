@@ -1,6 +1,6 @@
 ﻿using MusicManager.API.Common.Models;
-using MusicManager.API.Common.Utils;
 using MusicManager.API.Models.Enums;
+using MusicManager.API.Utils;
 
 namespace MusicManager.API.Models.Domain
 {
