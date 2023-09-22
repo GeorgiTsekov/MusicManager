@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Models.Domain;
@@ -49,6 +50,7 @@ namespace MusicManager.API.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] CreateBandRequestDto createBandRequestDto)
         {
             var band = mapper.Map<Band>(createBandRequestDto);
@@ -63,6 +65,7 @@ namespace MusicManager.API.Controllers
         [HttpPut]
         [ValidateModel]
         [Route("{id:int}")]
+        [Authorize(Roles = "Admin,Creator")]
         public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateBandRequestDto updateBandRequestDto)
         {
             var band = await bandRepository.ByIdAsync(id);
