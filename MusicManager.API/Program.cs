@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
-using MusicManager.API.Mappings;
-using MusicManager.API.Repositories;
+using MusicManager.API.Features;
+using MusicManager.API.Features.Bands;
+using MusicManager.API.Features.Musicians;
+using MusicManager.API.Features.Users;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +53,7 @@ builder.Services.AddDbContext<MusicManagerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MusicManagerConnectionString")));
 
 builder.Services
+    .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
     .AddScoped<BandRepository>()
     .AddScoped<MusicianRepository>()
     .AddScoped<ITokenRepository, TokenRepository>();
