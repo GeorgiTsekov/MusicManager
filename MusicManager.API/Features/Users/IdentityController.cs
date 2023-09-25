@@ -11,9 +11,9 @@ namespace MusicManager.API.Features.Users
     public class IdentityController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
-        private readonly ITokenRepository tokenRepository;
+        private readonly IUserService tokenRepository;
 
-        public IdentityController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
+        public IdentityController(UserManager<IdentityUser> userManager, IUserService tokenRepository)
         {
             this.userManager = userManager;
             this.tokenRepository = tokenRepository;
@@ -21,13 +21,13 @@ namespace MusicManager.API.Features.Users
 
         [HttpPost]
         [Route(nameof(Register))]
-        public async Task<IActionResult> Register([FromBody] RegisterManagerRequestDto registerManagerRequestDto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequest registerManagerRequestDto)
         {
             var identityUser = new User
             {
                 UserName = registerManagerRequestDto.UserName,
                 Email = registerManagerRequestDto.Email,
-                CreatedBy = registerManagerRequestDto.UserName,
+                CreatedBy = registerManagerRequestDto.Email,
                 CreatedOn = DateTime.Now
             };
 
@@ -56,7 +56,7 @@ namespace MusicManager.API.Features.Users
 
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequestDto)
         {
             var user = await this.userManager.FindByEmailAsync(loginRequestDto.UserName);
 
@@ -81,7 +81,7 @@ namespace MusicManager.API.Features.Users
 
             var jwtToken = tokenRepository.CreateJWTToken(user, roles.ToList());
 
-            var response = new LoginResponseDto
+            var response = new LoginResponse
             {
                 JwtToken = jwtToken
             };
@@ -94,14 +94,14 @@ namespace MusicManager.API.Features.Users
         [Route(nameof(User))]
         public async Task<ActionResult<UserDetailsServiceModel>> UserDetails()
         {
-            var email = this.tokenRepository.GetCurrentUserEmail();
+            var id = this.tokenRepository.GetCurrentUserId();
 
-            if (email == null)
+            if (id == null)
             {
                 return BadRequest();
             }
 
-            var user = await this.tokenRepository.UserDetails(email);
+            var user = await this.tokenRepository.UserDetails(id);
 
             if (user == null)
             {

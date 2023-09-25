@@ -4,7 +4,7 @@ using MusicManager.API.Features.Bands.Models;
 
 namespace MusicManager.API.Features.Musicians.Models
 {
-    public class MusicianDto : BaseDeletableModel<Guid>
+    public class MusicianModel : BaseDeletableModel<Guid>
     {
         public string Name { get; set; }
         public string Picture { get; set; }
@@ -17,6 +17,6 @@ namespace MusicManager.API.Features.Musicians.Models
         public MusicalInstrumentType MusicalInstrumentType { get; set; }
         public Clothing Clothing { get; set; }
         public int BandId { get; set; }
-        public BandDto Band { get; set; }
+        public BandModel Band { get; set; }
     }
 }

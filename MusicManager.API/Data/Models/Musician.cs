@@ -8,7 +8,6 @@ namespace MusicManager.API.Data.Models
     {
         public Musician()
         {
-            CreatedOn = DateTime.Now;
             Picture = "https://cdn.britannica.com/27/150327-050-CDB88DF6/Bono.jpg";
             Ambition = new Random().Next(MMConstants.MIN_TALANT, MMConstants.MAX_TALANT);
             Talant = new Random().Next(MMConstants.MIN_TALANT, MMConstants.MAX_TALANT);

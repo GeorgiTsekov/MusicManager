@@ -5,9 +5,9 @@ using MusicManager.API.Data.Models;
 
 namespace MusicManager.API.Features.Bands
 {
-    public class BandRepository : DeletableEntityRepository<Band, int>
+    public class BandService : DeletableEntityRepository<Band, int>
     {
-        public BandRepository(MusicManagerDbContext db) : base(db)
+        public BandService(MusicManagerDbContext db) : base(db)
         {
         }
 

@@ -2,7 +2,7 @@
 
 namespace MusicManager.API.Features.Users.Models
 {
-    public class LoginRequestDto
+    public class LoginRequest
     {
         [Required]
         [DataType(DataType.EmailAddress)]

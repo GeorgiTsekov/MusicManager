@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
 using MusicManager.API.Features;
 using MusicManager.API.Features.Bands;
@@ -21,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Music Manager Api", Version ="v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Music Manager Api", Version = "v1" });
     options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -54,9 +52,9 @@ builder.Services.AddDbContext<MusicManagerDbContext>(options =>
 
 builder.Services
     .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-    .AddScoped<BandRepository>()
-    .AddScoped<MusicianRepository>()
-    .AddScoped<ITokenRepository, TokenRepository>();
+    .AddScoped<BandService>()
+    .AddScoped<MusicianService>()
+    .AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

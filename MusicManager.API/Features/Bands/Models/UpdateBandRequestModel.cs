@@ -1,16 +1,16 @@
 ﻿using MusicManager.API.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace MusicManager.API.Features.Musicians.Models
+namespace MusicManager.API.Features.Bands.Models
 {
-    public class UpdateMusicianRequestDto
+    public class UpdateBandRequestModel
     {
         [Required]
         [MinLength(2, ErrorMessage = "Name shoult be betwenn 3 and 20 characters!")]
         [MaxLength(20)]
         public string Name { get; set; }
 
-        [Range(1, 5)]
-        public Clothing Clothing { get; set; }
+        [Range(1, 3)]
+        public Style Style { get; set; }
     }
 }

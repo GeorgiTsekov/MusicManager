@@ -2,7 +2,7 @@
 
 namespace MusicManager.API.Features.Users.Models
 {
-    public class RegisterManagerRequestDto
+    public class RegisterUserRequest
     {
         [Required]
         public string UserName { get; set; }

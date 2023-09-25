@@ -9,13 +9,13 @@ using System.Text;
 
 namespace MusicManager.API.Features.Users
 {
-    public class TokenRepository : ITokenRepository
+    public class UserService : IUserService
     {
         private readonly IConfiguration configuration;
         private readonly MusicManagerDbContext data;
         private readonly ClaimsPrincipal user;
 
-        public TokenRepository(IConfiguration configuration, MusicManagerDbContext data, IHttpContextAccessor httpContextAccessor)
+        public UserService(IConfiguration configuration, MusicManagerDbContext data, IHttpContextAccessor httpContextAccessor)
         {
             this.configuration = configuration;
             this.data = data;
@@ -27,6 +27,7 @@ namespace MusicManager.API.Features.Users
             var claims = new List<Claim>();
 
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
 
             foreach (var role in roles)
             {
@@ -40,17 +41,17 @@ namespace MusicManager.API.Features.Users
                 configuration["Jwt:Issuer"],
                 configuration["Jwt:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddDays(3),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<UserDetailsServiceModel> UserDetails(string email)
+        public async Task<UserDetailsServiceModel> UserDetails(string id)
         {
             var user = this.data
                 .Users
-                .Where(u => u.Email == email)
+                .Where(u => u.Id == id)
                 .Select(t => new UserDetailsServiceModel
                 {
                     Id = t.Id,
@@ -62,9 +63,26 @@ namespace MusicManager.API.Features.Users
             return await user;
         }
 
-        public string GetCurrentUserEmail()
+        public string GetCurrentUserId()
         {
-            return this.user?.FindFirst(ClaimTypes.Email)?.Value;
+            return this.user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        public async Task<UserDetailsServiceModel> GetCurrentUserDetails()
+        {
+            var id = this.GetCurrentUserId();
+            var user = this.data
+                .Users
+                .Where(u => u.Id == id)
+                .Select(t => new UserDetailsServiceModel
+                {
+                    Id = t.Id,
+                    UserName = t.UserName,
+                    Email = t.Email
+                })
+                .FirstOrDefaultAsync();
+
+            return await user;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Bands.Models
 {
-    public class CreateBandRequestDto
+    public class CreateBandRequestModel
     {
         [Required]
         [MinLength(2, ErrorMessage = $"{nameof(Name)} shoult be betwenn 3 and 20 characters!")]

@@ -1,10 +1,9 @@
 ﻿using MusicManager.API.Data.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 
 namespace MusicManager.API.Features.Musicians.Models
 {
-    public class CreateMusicianRequestDto
+    public class CreateMusicianRequestModel
     {
         [Required]
         [MinLength(2, ErrorMessage = $"{nameof(Name)} shoult be betwenn 3 and 20 characters!")]

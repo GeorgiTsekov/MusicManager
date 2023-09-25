@@ -10,7 +10,7 @@ namespace MusicManager.API.Features.Albums.Models
         public string Descritpion { get; set; }
         public string BandName { get; set; }
         public int BandId { get; set; }
-        public virtual BandDto Band { get; set; }
+        public virtual BandModel Band { get; set; }
         public virtual ICollection<SongDto> Songs { get; set; }
     }
 }
