@@ -13,13 +13,13 @@ namespace MusicManager.API.Features.Bands
     [ApiController]
     public class BandsController : ControllerBase
     {
-        private readonly BandService bandRepository;
+        private readonly BandService bandService;
         private readonly IMapper mapper;
         private readonly IUserService userService;
 
-        public BandsController(BandService bandRepository, IMapper mapper, IUserService userService)
+        public BandsController(BandService bandService, IMapper mapper, IUserService userService)
         {
-            this.bandRepository = bandRepository;
+            this.bandService = bandService;
             this.mapper = mapper;
             this.userService = userService;
         }
@@ -27,74 +27,74 @@ namespace MusicManager.API.Features.Bands
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var bands = await bandRepository.AllAsync();
+            var models = await bandService.AllAsync();
 
-            var bandDtos = mapper.Map<List<BandDetails>>(bands);
+            var modelDtos = mapper.Map<List<BandDetails>>(models);
 
-            return Ok(bandDtos);
+            return Ok(modelDtos);
         }
 
         [HttpGet]
         [Route(MMConstants.Id)]
         public async Task<IActionResult> GetById(int id)
         {
-            var band = await bandRepository.ByIdAsync(id);
+            var model = await bandService.ByIdAsync(id);
 
-            if (band == null)
+            if (model == null)
             {
                 return NotFound();
             }
 
-            var bandDto = mapper.Map<BandDetails>(band);
+            var modelDto = mapper.Map<BandDetails>(model);
 
-            return Ok(bandDto);
+            return Ok(modelDto);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateAsync(CreateBandRequestModel createBandRequestDto)
+        public async Task<IActionResult> CreateAsync(CreateBandRequestModel createModelRequestDto)
         {
-            var band = mapper.Map<Band>(createBandRequestDto);
+            var model = mapper.Map<Band>(createModelRequestDto);
             var user = this.userService.GetCurrentUserDetails().Result;
             if (user == null)
             {
                 return BadRequest("Not authorized!");
             }
 
-            band.CreatedBy = user.Email;
-            band.UserId = user.Id;
-            band = await bandRepository.CreateAsync(band);
+            model.CreatedBy = user.Email;
+            model.UserId = user.Id;
+            model = await bandService.CreateAsync(model);
 
-            var bandDto = mapper.Map<BandModel>(band);
+            var modelDto = mapper.Map<BandModel>(model);
 
-            return Ok(bandDto);
+            return Ok(modelDto);
         }
 
         [HttpPut]
         [ValidateModel]
         [Route(MMConstants.Id)]
         [Authorize]
-        public async Task<IActionResult> UpdateAsync(int id, UpdateBandRequestModel updateBandRequestDto)
+        public async Task<IActionResult> UpdateAsync(int id, UpdateBandRequestModel updateModelRequestDto)
         {
-            var band = await bandRepository.ByIdAsync(id);
-            if (band == null)
+            var model = await bandService.ByIdAsync(id);
+            if (model == null)
             {
                 return NotFound();
             }
 
             var user = this.userService.GetCurrentUserDetails().Result;
-            if (user.Email != band.CreatedBy)
+            if (user.Email != model.CreatedBy)
             {
                 return BadRequest("Not authorized!");
             }
 
-            band.ModifiedBy = user.Email;
-            band.Name = updateBandRequestDto.Name;
-            band.Style = updateBandRequestDto.Style;
+            model.ModifiedBy = user.Email;
+            model.Name = updateModelRequestDto.Name;
+            model.Style = updateModelRequestDto.Style;
 
-            bandRepository.Update(band);
+            bandService.Update(model);
 
-            return Ok(mapper.Map<BandModel>(band));
+            return Ok(mapper.Map<BandModel>(model));
         }
 
         [HttpDelete]
@@ -102,24 +102,24 @@ namespace MusicManager.API.Features.Bands
         [Authorize]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            var band = await bandRepository.ByIdAsync(id);
+            var model = await bandService.ByIdAsync(id);
 
-            if (band == null)
+            if (model == null)
             {
                 return NotFound();
             }
 
             var user = this.userService.GetCurrentUserDetails().Result;
-            if (user.Email != band.CreatedBy)
+            if (user.Email != model.CreatedBy)
             {
                 return BadRequest("Not authorized!");
             }
 
-            band.DeletedBy = user.Email;
+            model.DeletedBy = user.Email;
 
-            bandRepository.Delete(band);
+            bandService.Delete(model);
 
-            return Ok(mapper.Map<BandModel>(band));
+            return Ok(mapper.Map<BandModel>(model));
         }
     }
 }

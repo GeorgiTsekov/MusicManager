@@ -14,14 +14,14 @@ namespace MusicManager.API.Features.Musicians
     [ApiController]
     public class MusiciansController : ControllerBase
     {
-        private readonly MusicianService musicianRepository;
+        private readonly MusicianService musicianService;
         private readonly IMapper mapper;
         private readonly IUserService userService;
         private readonly BandService bandService;
 
-        public MusiciansController(MusicianService musicianRepository, IMapper mapper, IUserService userService, BandService bandService)
+        public MusiciansController(MusicianService musicianService, IMapper mapper, IUserService userService, BandService bandService)
         {
-            this.musicianRepository = musicianRepository;
+            this.musicianService = musicianService;
             this.mapper = mapper;
             this.userService = userService;
             this.bandService = bandService;
@@ -30,33 +30,33 @@ namespace MusicManager.API.Features.Musicians
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var musicians = await musicianRepository.AllAsync();
+            var models = await musicianService.AllAsync();
 
-            var musicianDtos = mapper.Map<List<MusicianModel>>(musicians);
+            var modelsDtos = mapper.Map<List<MusicianModel>>(models);
 
-            return Ok(musicianDtos);
+            return Ok(modelsDtos);
         }
 
         [HttpGet]
         [Route(MMConstants.Id)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var musician = await musicianRepository.ByIdAsync(id);
+            var model = await musicianService.ByIdAsync(id);
 
-            if (musician == null)
+            if (model == null)
             {
                 return NotFound();
             }
 
-            var musicianDto = mapper.Map<MusicianModel>(musician);
+            var modelDto = mapper.Map<MusicianModel>(model);
 
-            return Ok(musicianDto);
+            return Ok(modelDto);
         }
 
         [HttpPost]
         [ValidateModel]
         [Authorize]
-        public async Task<IActionResult> CreateAsync(CreateMusicianRequestModel createBandRequestDto)
+        public async Task<IActionResult> CreateAsync(CreateMusicianRequestModel createModelRequestDto)
         {
             var user = this.userService.GetCurrentUserDetails().Result;
             if (user == null)
@@ -64,10 +64,10 @@ namespace MusicManager.API.Features.Musicians
                 return BadRequest("Not authorized!");
             }
 
-            var band = bandService.ByIdAsync(createBandRequestDto.BandId).Result;
+            var band = bandService.ByIdAsync(createModelRequestDto.BandId).Result;
             if (band == null)
             {
-                return BadRequest($"There is not band with id: {createBandRequestDto.BandId}");
+                return BadRequest($"There is not band with id: {createModelRequestDto.BandId}");
             }
 
             if (band.CreatedBy != user.Email)
@@ -75,26 +75,26 @@ namespace MusicManager.API.Features.Musicians
                 return BadRequest("Not authorized!");
             }
 
-            var musician = mapper.Map<Musician>(createBandRequestDto);
-            musician.CreatedBy = user.Email;
-            musician.BandId = band.Id;
-            band.Musicians.Add(musician);
-            await musicianRepository.CreateAsync(musician);
+            var model = mapper.Map<Musician>(createModelRequestDto);
+            model.CreatedBy = user.Email;
+            model.BandId = band.Id;
+            band.Musicians.Add(model);
+            await musicianService.CreateAsync(model);
 
-            var musicianDto = mapper.Map<MusicianModel>(musician);
+            var modelDto = mapper.Map<MusicianModel>(model);
 
-            return Ok(musicianDto);
+            return Ok(modelDto);
         }
 
         [HttpPut]
         [ValidateModel]
         [Authorize]
         [Route(MMConstants.Id)]
-        public async Task<IActionResult> UpdateAsync(Guid id, UpdateMusicianRequestModel updateBandRequestDto)
+        public async Task<IActionResult> UpdateAsync(Guid id, UpdateMusicianRequestModel updateModelRequestDto)
         {
-            var musician = await musicianRepository.ByIdAsync(id);
+            var model = await musicianService.ByIdAsync(id);
 
-            if (musician == null)
+            if (model == null)
             {
                 return NotFound();
             }
@@ -105,14 +105,14 @@ namespace MusicManager.API.Features.Musicians
                 return BadRequest("Not authorized!");
             }
 
-            musician.CreatedBy = user.Email;
+            model.CreatedBy = user.Email;
 
-            musician.Name = updateBandRequestDto.Name;
-            musician.Clothing = updateBandRequestDto.Clothing;
+            model.Name = updateModelRequestDto.Name;
+            model.Clothing = updateModelRequestDto.Clothing;
 
-            musicianRepository.Update(musician);
+            musicianService.Update(model);
 
-            return Ok(mapper.Map<MusicianModel>(musician));
+            return Ok(mapper.Map<MusicianModel>(model));
         }
 
         [HttpDelete]
@@ -120,9 +120,9 @@ namespace MusicManager.API.Features.Musicians
         [Route(MMConstants.Id)]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            var musician = await musicianRepository.ByIdAsync(id);
+            var model = await musicianService.ByIdAsync(id);
 
-            if (musician == null)
+            if (model == null)
             {
                 return NotFound();
             }
@@ -133,11 +133,11 @@ namespace MusicManager.API.Features.Musicians
                 return BadRequest("Not authorized!");
             }
 
-            musician.CreatedBy = user.Email;
+            model.CreatedBy = user.Email;
 
-            musicianRepository.Delete(musician);
+            musicianService.Delete(model);
 
-            return Ok(mapper.Map<MusicianModel>(musician));
+            return Ok(mapper.Map<MusicianModel>(model));
         }
     }
 }

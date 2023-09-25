@@ -1,11 +1,11 @@
-﻿using MusicManager.API.Features.Bands.Models;
+﻿using MusicManager.API.Common.Models;
+using MusicManager.API.Features.Bands.Models;
 using MusicManager.API.Features.Songs.Models;
 
 namespace MusicManager.API.Features.Albums.Models
 {
-    public class AlbumDto
+    public class AlbumDetails : BaseDeletableModel<int>
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Descritpion { get; set; }
         public string BandName { get; set; }

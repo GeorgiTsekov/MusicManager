@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MusicManager.API.Data;
 using MusicManager.API.Features;
+using MusicManager.API.Features.Albums;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians;
 using MusicManager.API.Features.Users;
@@ -54,6 +55,7 @@ builder.Services
     .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
     .AddScoped<BandService>()
     .AddScoped<MusicianService>()
+    .AddScoped<AlbumsService>()
     .AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
