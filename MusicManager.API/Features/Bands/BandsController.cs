@@ -5,6 +5,7 @@ using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands.Models;
 using MusicManager.API.Features.Users;
+using MusicManager.API.Utils;
 
 namespace MusicManager.API.Features.Bands
 {
@@ -34,8 +35,8 @@ namespace MusicManager.API.Features.Bands
         }
 
         [HttpGet]
-        [Route("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [Route(MMConstants.Id)]
+        public async Task<IActionResult> GetById(int id)
         {
             var band = await bandRepository.ByIdAsync(id);
 
@@ -51,7 +52,7 @@ namespace MusicManager.API.Features.Bands
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateBandRequestModel createBandRequestDto)
+        public async Task<IActionResult> CreateAsync(CreateBandRequestModel createBandRequestDto)
         {
             var band = mapper.Map<Band>(createBandRequestDto);
             var user = this.userService.GetCurrentUserDetails().Result;
@@ -71,9 +72,9 @@ namespace MusicManager.API.Features.Bands
 
         [HttpPut]
         [ValidateModel]
-        [Route("{id:int}")]
+        [Route(MMConstants.Id)]
         [Authorize]
-        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateBandRequestModel updateBandRequestDto)
+        public async Task<IActionResult> UpdateAsync(int id, UpdateBandRequestModel updateBandRequestDto)
         {
             var band = await bandRepository.ByIdAsync(id);
             if (band == null)
@@ -97,9 +98,9 @@ namespace MusicManager.API.Features.Bands
         }
 
         [HttpDelete]
-        [Route("{id:int}")]
+        [Route(MMConstants.Id)]
         [Authorize]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             var band = await bandRepository.ByIdAsync(id);
 

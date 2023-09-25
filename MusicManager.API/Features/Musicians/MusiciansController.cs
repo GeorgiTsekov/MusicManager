@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Common.CustomActionFilters;
-using MusicManager.API.Common.Models;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians.Models;
 using MusicManager.API.Features.Users;
+using MusicManager.API.Utils;
 
 namespace MusicManager.API.Features.Musicians
 {
@@ -38,8 +38,8 @@ namespace MusicManager.API.Features.Musicians
         }
 
         [HttpGet]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        [Route(MMConstants.Id)]
+        public async Task<IActionResult> GetById(Guid id)
         {
             var musician = await musicianRepository.ByIdAsync(id);
 
@@ -56,7 +56,7 @@ namespace MusicManager.API.Features.Musicians
         [HttpPost]
         [ValidateModel]
         [Authorize]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateMusicianRequestModel createBandRequestDto)
+        public async Task<IActionResult> CreateAsync(CreateMusicianRequestModel createBandRequestDto)
         {
             var user = this.userService.GetCurrentUserDetails().Result;
             if (user == null)
@@ -89,8 +89,8 @@ namespace MusicManager.API.Features.Musicians
         [HttpPut]
         [ValidateModel]
         [Authorize]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateMusicianRequestModel updateBandRequestDto)
+        [Route(MMConstants.Id)]
+        public async Task<IActionResult> UpdateAsync(Guid id, UpdateMusicianRequestModel updateBandRequestDto)
         {
             var musician = await musicianRepository.ByIdAsync(id);
 
@@ -117,8 +117,8 @@ namespace MusicManager.API.Features.Musicians
 
         [HttpDelete]
         [Authorize]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+        [Route(MMConstants.Id)]
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var musician = await musicianRepository.ByIdAsync(id);
 

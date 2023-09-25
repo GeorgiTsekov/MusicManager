@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Users.Models;
@@ -92,6 +93,7 @@ namespace MusicManager.API.Features.Users
 
         [HttpGet]
         [Route(nameof(User))]
+        [Authorize]
         public async Task<ActionResult<UserDetailsServiceModel>> UserDetails()
         {
             var id = this.tokenRepository.GetCurrentUserId();

@@ -11,5 +11,6 @@
         public const string ADMIN = "ADMIN";
         public const string ADMIN_ID = "5038b910-7a29-4163-ba89-c8a49a53e4d4";
         public const string GUEST_ID = "5888d7e8-213b-46c5-a8f6-beca89e5a68a";
+        public const string Id = "{id}";
     }
 }
