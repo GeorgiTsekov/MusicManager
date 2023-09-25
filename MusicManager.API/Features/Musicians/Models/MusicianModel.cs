@@ -1,6 +1,5 @@
 ﻿using MusicManager.API.Common.Models;
 using MusicManager.API.Data.Enums;
-using MusicManager.API.Features.Bands.Models;
 
 namespace MusicManager.API.Features.Musicians.Models
 {
@@ -16,7 +15,5 @@ namespace MusicManager.API.Features.Musicians.Models
         public int Fame { get; set; }
         public MusicalInstrumentType MusicalInstrumentType { get; set; }
         public Clothing Clothing { get; set; }
-        public int BandId { get; set; }
-        public BandModel Band { get; set; }
     }
 }

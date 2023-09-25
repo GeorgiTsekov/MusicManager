@@ -4,6 +4,11 @@ namespace MusicManager.API.Data.Models
 {
     public class Song : BaseDeletableModel<int>
     {
+        public Song()
+        {
+            this.Sound = "sound";
+        }
+
         public string Name { get; set; }
         public int TrainingLevel { get; set; }
         public string Sound { get; set; }

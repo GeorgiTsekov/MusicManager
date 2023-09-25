@@ -14,12 +14,12 @@ namespace MusicManager.API.Features.Albums
     [ApiController]
     public class AlbumsController : ControllerBase
     {
-        private readonly AlbumsService albumsService;
+        private readonly AlbumService albumsService;
         private readonly IMapper mapper;
         private readonly IUserService userService;
         private readonly BandService bandService;
 
-        public AlbumsController(AlbumsService albumsService, IMapper mapper, IUserService userService, BandService bandService)
+        public AlbumsController(AlbumService albumsService, IMapper mapper, IUserService userService, BandService bandService)
         {
             this.albumsService = albumsService;
             this.mapper = mapper;
@@ -32,7 +32,7 @@ namespace MusicManager.API.Features.Albums
         {
             var models = await albumsService.AllAsync();
 
-            var modelsDtos = mapper.Map<List<AlbumModel>>(models);
+            var modelsDtos = mapper.Map<List<AlbumDetails>>(models);
 
             return Ok(modelsDtos);
         }
@@ -48,7 +48,7 @@ namespace MusicManager.API.Features.Albums
                 return NotFound();
             }
 
-            var modelDto = mapper.Map<AlbumModel>(model);
+            var modelDto = mapper.Map<AlbumDetails>(model);
 
             return Ok(modelDto);
         }

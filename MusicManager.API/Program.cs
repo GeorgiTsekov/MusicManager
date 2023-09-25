@@ -8,6 +8,7 @@ using MusicManager.API.Features;
 using MusicManager.API.Features.Albums;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians;
+using MusicManager.API.Features.Songs;
 using MusicManager.API.Features.Users;
 using System.Text;
 
@@ -55,7 +56,8 @@ builder.Services
     .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
     .AddScoped<BandService>()
     .AddScoped<MusicianService>()
-    .AddScoped<AlbumsService>()
+    .AddScoped<AlbumService>()
+    .AddScoped<SongService>()
     .AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
