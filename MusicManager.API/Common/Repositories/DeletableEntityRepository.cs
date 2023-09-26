@@ -1,34 +1,37 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MusicManager.API.Common.Models;
+﻿using MusicManager.API.Common.Models;
 using MusicManager.API.Data;
+using MusicManager.API.Features.Users;
 
 namespace MusicManager.API.Common.Repositories
 {
     public class DeletableEntityRepository<TEntity, TKey> : EfRepository<TEntity, TKey>, IDeletableEntityRepository<TEntity, TKey>
         where TEntity : BaseDeletableModel<TKey>
     {
-        public DeletableEntityRepository(MusicManagerDbContext db)
-            : base(db)
+        public DeletableEntityRepository(MusicManagerDbContext db, IUserService userService) : base(db, userService)
         {
         }
 
         public override async Task<IList<TEntity>> AllAsync()
         {
-            var entities = await DbSet.ToListAsync();
-            entities = entities.Where(x => !x.IsDeleted).ToList();
-            return entities;
+            var entities = await base.AllAsync();
+            return entities.Where(x => !x.IsDeleted).ToList();
+        }
+
+        public override async Task<IList<TEntity>> AllMineAsync()
+        {
+            var entities = await base.AllMineAsync();
+            return entities.Where(x => !x.IsDeleted).ToList();
         }
 
         public override async Task<IList<TEntity>> AllAsNoTrackingAsync()
         {
-            var entities = await DbSet.AsNoTracking().ToListAsync();
-            entities = entities.Where(x => !x.IsDeleted).ToList();
-            return entities;
+            var entities = await base.AllAsNoTrackingAsync();
+            return entities.Where(x => !x.IsDeleted).ToList();
         }
 
-        public async Task<IList<TEntity>> AllWithDeleted() => await DbSet.ToListAsync();
+        public async Task<IList<TEntity>> AllWithDeleted() => await base.AllAsync();
 
-        public async Task<IList<TEntity>> AllAsNoTrackingWithDeleted() => await DbSet.AsNoTracking().ToListAsync();
+        public async Task<IList<TEntity>> AllAsNoTrackingWithDeleted() => await base.AllAsNoTrackingAsync();
 
         public void HardDelete(TEntity entity)
         {
@@ -49,6 +52,15 @@ namespace MusicManager.API.Common.Repositories
             base.Update(entity);
         }
 
-        public async override Task<TEntity> ByIdAsync(TKey id) => await DbSet.Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id.Equals(id));
+        public async override Task<TEntity> ByIdAsync(TKey id)
+        {
+            var entity = await base.ByIdAsync(id);
+            if (entity.IsDeleted)
+            {
+                return null;
+            }
+
+            return entity;
+        }
     }
 }

@@ -2,12 +2,13 @@
 using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
 using MusicManager.API.Data.Models;
+using MusicManager.API.Features.Users;
 
 namespace MusicManager.API.Features.Songs
 {
     public class SongService : DeletableEntityRepository<Song, int>
     {
-        public SongService(MusicManagerDbContext db) : base(db)
+        public SongService(MusicManagerDbContext db, IUserService userService) : base(db, userService)
         {
         }
 

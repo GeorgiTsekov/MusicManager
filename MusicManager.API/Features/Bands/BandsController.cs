@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands.Models;
-using MusicManager.API.Features.Users;
 using MusicManager.API.Utils;
 
 namespace MusicManager.API.Features.Bands
@@ -15,13 +14,23 @@ namespace MusicManager.API.Features.Bands
     {
         private readonly BandService bandService;
         private readonly IMapper mapper;
-        private readonly IUserService userService;
 
-        public BandsController(BandService bandService, IMapper mapper, IUserService userService)
+        public BandsController(BandService bandService, IMapper mapper)
         {
             this.bandService = bandService;
             this.mapper = mapper;
-            this.userService = userService;
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Mine")]
+        public async Task<IActionResult> GetAllMineAsync()
+        {
+            var models = await bandService.AllMineAsync();
+
+            var modelDtos = mapper.Map<List<BandDetails>>(models);
+
+            return Ok(modelDtos);
         }
 
         [HttpGet]
@@ -55,7 +64,7 @@ namespace MusicManager.API.Features.Bands
         public async Task<IActionResult> CreateAsync(CreateBandRequestModel createModelRequestDto)
         {
             var model = mapper.Map<Band>(createModelRequestDto);
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = bandService.UserService.GetCurrentUserDetails().Result;
             if (user == null)
             {
                 return BadRequest("Not authorized!");
@@ -76,13 +85,13 @@ namespace MusicManager.API.Features.Bands
         [Authorize]
         public async Task<IActionResult> UpdateAsync(int id, UpdateBandRequestModel updateModelRequestDto)
         {
-            var model = await bandService.ByIdAsync(id);
+            var model = await this.bandService.ByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
             }
 
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = this.bandService.UserService.GetCurrentUserDetails().Result;
             if (user.Email != model.CreatedBy)
             {
                 return BadRequest("Not authorized!");
@@ -92,7 +101,7 @@ namespace MusicManager.API.Features.Bands
             model.Name = updateModelRequestDto.Name;
             model.Style = updateModelRequestDto.Style;
 
-            bandService.Update(model);
+            this.bandService.Update(model);
 
             return Ok(mapper.Map<BandModel>(model));
         }
@@ -109,7 +118,7 @@ namespace MusicManager.API.Features.Bands
                 return NotFound();
             }
 
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = this.bandService.UserService.GetCurrentUserDetails().Result;
             if (user.Email != model.CreatedBy)
             {
                 return BadRequest("Not authorized!");

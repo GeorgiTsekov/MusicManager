@@ -1,23 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicManager.API.Common.Models;
 using MusicManager.API.Data;
+using MusicManager.API.Features.Users;
 
 namespace MusicManager.API.Common.Repositories
 {
     public class EfRepository<TEntity, TKey> : IRepository<TEntity, TKey>
-        where TEntity : BaseDeletableModel<TKey>
+        where TEntity : BaseModel<TKey>
     {
-        public EfRepository(MusicManagerDbContext db)
+
+        public EfRepository(MusicManagerDbContext db, IUserService userService)
         {
             DbContext = db ?? throw new ArgumentNullException(nameof(db));
+            UserService = userService;
             DbSet = DbContext.Set<TEntity>();
         }
 
         protected DbSet<TEntity> DbSet { get; set; }
-
         protected MusicManagerDbContext DbContext { get; set; }
+        public IUserService UserService { get; }
 
         public virtual async Task<IList<TEntity>> AllAsync() => await DbSet.ToListAsync();
+        public virtual async Task<IList<TEntity>> AllMineAsync()
+        {
+            var entities = await DbSet.ToListAsync();
+
+            var currentUserEmail = UserService.GetCurrentUserDetails().Result.Email;
+
+            if (currentUserEmail == null)
+            {
+                return new List<TEntity>();
+            }
+
+            return entities.Where(x => x.CreatedBy == currentUserEmail).ToList();
+        }
 
         public virtual async Task<IList<TEntity>> AllAsNoTrackingAsync() => await DbSet.AsNoTracking().ToListAsync();
 

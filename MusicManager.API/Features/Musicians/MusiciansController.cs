@@ -5,7 +5,6 @@ using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians.Models;
-using MusicManager.API.Features.Users;
 using MusicManager.API.Utils;
 
 namespace MusicManager.API.Features.Musicians
@@ -16,15 +15,25 @@ namespace MusicManager.API.Features.Musicians
     {
         private readonly MusicianService musicianService;
         private readonly IMapper mapper;
-        private readonly IUserService userService;
         private readonly BandService bandService;
 
-        public MusiciansController(MusicianService musicianService, IMapper mapper, IUserService userService, BandService bandService)
+        public MusiciansController(MusicianService musicianService, IMapper mapper, BandService bandService)
         {
             this.musicianService = musicianService;
             this.mapper = mapper;
-            this.userService = userService;
             this.bandService = bandService;
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Mine")]
+        public async Task<IActionResult> GetAllMineAsync()
+        {
+            var models = await musicianService.AllMineAsync();
+
+            var modelDtos = mapper.Map<List<MusicianModel>>(models);
+
+            return Ok(modelDtos);
         }
 
         [HttpGet]
@@ -58,7 +67,7 @@ namespace MusicManager.API.Features.Musicians
         [Authorize]
         public async Task<IActionResult> CreateAsync(CreateMusicianRequestModel createModelRequestDto)
         {
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = this.musicianService.UserService.GetCurrentUserDetails().Result;
             if (user == null)
             {
                 return BadRequest("Not authorized!");
@@ -99,7 +108,7 @@ namespace MusicManager.API.Features.Musicians
                 return NotFound();
             }
 
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = this.musicianService.UserService.GetCurrentUserDetails().Result;
             if (user == null)
             {
                 return BadRequest("Not authorized!");
@@ -127,7 +136,7 @@ namespace MusicManager.API.Features.Musicians
                 return NotFound();
             }
 
-            var user = this.userService.GetCurrentUserDetails().Result;
+            var user = this.musicianService.UserService.GetCurrentUserDetails().Result;
             if (user == null)
             {
                 return BadRequest("Not authorized!");
