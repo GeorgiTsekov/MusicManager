@@ -10,7 +10,6 @@ namespace MusicManager.API.Features.Bands.Models
         [MaxLength(20)]
         public string Name { get; set; }
 
-        [Range(1, 3)]
-        public Style Style { get; set; }
+        public string Style { get; set; }
     }
 }

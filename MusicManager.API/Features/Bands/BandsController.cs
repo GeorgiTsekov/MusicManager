@@ -23,7 +23,7 @@ namespace MusicManager.API.Features.Bands
 
         [HttpGet]
         [Authorize]
-        [Route("Mine")]
+        [Route("All/Mine")]
         public async Task<IActionResult> GetAllMineAsync()
         {
             var models = await bandService.AllMineAsync();
@@ -34,6 +34,7 @@ namespace MusicManager.API.Features.Bands
         }
 
         [HttpGet]
+        [Route("All")]
         public async Task<IActionResult> GetAllAsync()
         {
             var models = await bandService.AllAsync();
@@ -61,6 +62,7 @@ namespace MusicManager.API.Features.Bands
 
         [HttpPost]
         [Authorize]
+        [Route("Create")]
         public async Task<IActionResult> CreateAsync(CreateBandRequestModel createModelRequestDto)
         {
             var model = mapper.Map<Band>(createModelRequestDto);
@@ -81,7 +83,7 @@ namespace MusicManager.API.Features.Bands
 
         [HttpPut]
         [ValidateModel]
-        [Route(MMConstants.Id)]
+        [Route($"Update/{MMConstants.Id}")]
         [Authorize]
         public async Task<IActionResult> UpdateAsync(int id, UpdateBandRequestModel updateModelRequestDto)
         {
@@ -107,7 +109,7 @@ namespace MusicManager.API.Features.Bands
         }
 
         [HttpDelete]
-        [Route(MMConstants.Id)]
+        [Route($"Delete/{MMConstants.Id}")]
         [Authorize]
         public async Task<IActionResult> DeleteAsync(int id)
         {

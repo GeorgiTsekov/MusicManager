@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicManager.API.Common.CustomActionFilters;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands;
@@ -26,7 +27,7 @@ namespace MusicManager.API.Features.Musicians
 
         [HttpGet]
         [Authorize]
-        [Route("Mine")]
+        [Route("All/Mine")]
         public async Task<IActionResult> GetAllMineAsync()
         {
             var models = await musicianService.AllMineAsync();
@@ -37,6 +38,7 @@ namespace MusicManager.API.Features.Musicians
         }
 
         [HttpGet]
+        [Route("All")]
         public async Task<IActionResult> GetAllAsync()
         {
             var models = await musicianService.AllAsync();
@@ -65,6 +67,7 @@ namespace MusicManager.API.Features.Musicians
         [HttpPost]
         [ValidateModel]
         [Authorize]
+        [Route("Create")]
         public async Task<IActionResult> CreateAsync(CreateMusicianRequestModel createModelRequestDto)
         {
             var user = this.musicianService.UserService.GetCurrentUserDetails().Result;
@@ -86,9 +89,15 @@ namespace MusicManager.API.Features.Musicians
 
             var model = mapper.Map<Musician>(createModelRequestDto);
             model.CreatedBy = user.Email;
-            model.BandId = band.Id;
-            band.Musicians.Add(model);
+            model.BandId = band.Id; 
+            
+            if (band.Musicians.Count >= 6)
+            {
+                return BadRequest("Too many musicians!");
+            }
+
             await musicianService.CreateAsync(model);
+            band.Musicians.Add(model);
 
             var modelDto = mapper.Map<MusicianModel>(model);
 
@@ -98,7 +107,7 @@ namespace MusicManager.API.Features.Musicians
         [HttpPut]
         [ValidateModel]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Update/{MMConstants.Id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, UpdateMusicianRequestModel updateModelRequestDto)
         {
             var model = await musicianService.ByIdAsync(id);
@@ -114,10 +123,8 @@ namespace MusicManager.API.Features.Musicians
                 return BadRequest("Not authorized!");
             }
 
-            model.CreatedBy = user.Email;
-
+            model.CreatedBy = user.UserName;
             model.Name = updateModelRequestDto.Name;
-            model.Clothing = updateModelRequestDto.Clothing;
 
             musicianService.Update(model);
 
@@ -126,7 +133,7 @@ namespace MusicManager.API.Features.Musicians
 
         [HttpDelete]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Delete/{MMConstants.Id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var model = await musicianService.ByIdAsync(id);

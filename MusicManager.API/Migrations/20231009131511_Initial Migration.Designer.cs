@@ -12,8 +12,8 @@ using MusicManager.API.Data;
 namespace MusicManager.API.Migrations
 {
     [DbContext(typeof(MusicManagerDbContext))]
-    [Migration("20230925113813_Initial Create")]
-    partial class InitialCreate
+    [Migration("20231009131511_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -332,8 +332,9 @@ namespace MusicManager.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Style")
-                        .HasColumnType("int");
+                    b.Property<string>("Style")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -358,13 +359,7 @@ namespace MusicManager.API.Migrations
                     b.Property<int>("BandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Charisma")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Clothing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComposingSkills")
+                    b.Property<int>("Compatibility")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -374,14 +369,14 @@ namespace MusicManager.API.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DailyRent")
+                        .HasColumnType("int");
+
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Fame")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -391,9 +386,6 @@ namespace MusicManager.API.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Mood")
-                        .HasColumnType("int");
 
                     b.Property<int>("MusicalInstrumentType")
                         .HasColumnType("int");
@@ -457,6 +449,9 @@ namespace MusicManager.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Style")
+                        .HasColumnType("int");
+
                     b.Property<int>("TrainingLevel")
                         .HasColumnType("int");
 
@@ -495,8 +490,8 @@ namespace MusicManager.API.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Money")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasDiscriminator().HasValue("User");
                 });

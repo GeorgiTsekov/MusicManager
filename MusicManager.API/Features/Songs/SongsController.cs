@@ -26,7 +26,7 @@ namespace MusicManager.API.Features.Songs
 
         [HttpGet]
         [Authorize]
-        [Route("Mine")]
+        [Route("All/Mine")]
         public async Task<IActionResult> GetAllMineAsync()
         {
             var models = await songService.AllMineAsync();
@@ -37,6 +37,7 @@ namespace MusicManager.API.Features.Songs
         }
 
         [HttpGet]
+        [Route("All")]
         public async Task<IActionResult> GetAllAsync()
         {
             var models = await songService.AllAsync();
@@ -65,6 +66,7 @@ namespace MusicManager.API.Features.Songs
         [HttpPost]
         [ValidateModel]
         [Authorize]
+        [Route("Create")]
         public async Task<IActionResult> CreateAsync(CreateSongRequestModel createModelRequestDto)
         {
             var user = this.albumService.UserService.GetCurrentUserDetails().Result;
@@ -73,7 +75,7 @@ namespace MusicManager.API.Features.Songs
                 return BadRequest("Not authorized!");
             }
 
-            var album = albumService.ByIdAsync(createModelRequestDto.AlbumId).Result;
+            var album = await albumService.ByIdAsync(createModelRequestDto.AlbumId);
             if (album == null)
             {
                 return BadRequest($"There is not band with id: {createModelRequestDto.AlbumId}");
@@ -87,8 +89,10 @@ namespace MusicManager.API.Features.Songs
             var model = mapper.Map<Song>(createModelRequestDto);
             model.CreatedBy = user.Email;
             model.AlbumId = album.Id;
-            album.Songs.Add(model);
+            model.Style = createModelRequestDto.Style;
+            model.Sound = "new sound";
             await songService.CreateAsync(model);
+            album.Songs.Add(model);
 
             var modelDto = mapper.Map<SongModel>(model);
 
@@ -98,7 +102,7 @@ namespace MusicManager.API.Features.Songs
         [HttpPut]
         [ValidateModel]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Update/{MMConstants.Id}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateSongRequestModel updateModelRequestDto)
         {
             var model = await songService.ByIdAsync(id);
@@ -125,7 +129,7 @@ namespace MusicManager.API.Features.Songs
 
         [HttpDelete]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Delete/{MMConstants.Id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await songService.ByIdAsync(id);

@@ -26,7 +26,7 @@ namespace MusicManager.API.Features.Albums
 
         [HttpGet]
         [Authorize]
-        [Route("Mine")]
+        [Route("All/Mine")]
         public async Task<IActionResult> GetAllMineAsync()
         {
             var models = await albumsService.AllMineAsync();
@@ -37,6 +37,7 @@ namespace MusicManager.API.Features.Albums
         }
 
         [HttpGet]
+        [Route($"All")]
         public async Task<IActionResult> GetAllAsync()
         {
             var models = await albumsService.AllAsync();
@@ -65,6 +66,7 @@ namespace MusicManager.API.Features.Albums
         [HttpPost]
         [ValidateModel]
         [Authorize]
+        [Route("Create")]
         public async Task<IActionResult> CreateAsync(CreateAlbumRequestModel createModelRequest)
         {
             var user = this.albumsService.UserService.GetCurrentUserDetails().Result;
@@ -98,7 +100,7 @@ namespace MusicManager.API.Features.Albums
         [HttpPut]
         [ValidateModel]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Update/{MMConstants.Id}")]
         public async Task<IActionResult> UpdateAsync(int id, UpdateAlbumRequestModel updateModelRequest)
         {
             var model = await albumsService.ByIdAsync(id);
@@ -126,7 +128,7 @@ namespace MusicManager.API.Features.Albums
 
         [HttpDelete]
         [Authorize]
-        [Route(MMConstants.Id)]
+        [Route($"Delete/{MMConstants.Id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var model = await albumsService.ByIdAsync(id);

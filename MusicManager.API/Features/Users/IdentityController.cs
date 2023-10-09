@@ -27,8 +27,8 @@ namespace MusicManager.API.Features.Users
             var identityUser = new User
             {
                 UserName = registerManagerRequestDto.UserName,
-                Email = registerManagerRequestDto.Email,
-                CreatedBy = registerManagerRequestDto.Email,
+                Email = registerManagerRequestDto.UserName,
+                CreatedBy = registerManagerRequestDto.UserName,
                 CreatedOn = DateTime.Now
             };
 
@@ -59,7 +59,7 @@ namespace MusicManager.API.Features.Users
         [Route(nameof(Login))]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequestDto)
         {
-            var user = await this.userManager.FindByEmailAsync(loginRequestDto.UserName);
+            var user = await this.userManager.FindByNameAsync(loginRequestDto.UserName);
 
             if (user == null)
             {

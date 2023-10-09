@@ -1,4 +1,4 @@
-﻿using MusicManager.API.Data.Models;
+﻿using MusicManager.API.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Songs.Models
@@ -10,8 +10,9 @@ namespace MusicManager.API.Features.Songs.Models
         [MaxLength(20)]
         public string Name { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue)]
+        [EnumDataType(typeof(SongType))]
+        public SongType Style { get; set; }
+
         public int AlbumId { get; set; }
     }
 }

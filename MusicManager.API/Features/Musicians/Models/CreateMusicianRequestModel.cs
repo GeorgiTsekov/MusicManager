@@ -1,4 +1,5 @@
 ﻿using MusicManager.API.Data.Enums;
+using MusicManager.API.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Musicians.Models
@@ -10,11 +11,8 @@ namespace MusicManager.API.Features.Musicians.Models
         [MaxLength(20)]
         public string Name { get; set; }
 
-        [Range(1, 5)]
-        public MusicalInstrumentType MusicalInstrumentType { get; set; }
-
-        [Range(1, 5)]
-        public Clothing Clothing { get; set; }
+        [EnumDataType(typeof(DailyRent))]
+        public DailyRent DailyRent { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]

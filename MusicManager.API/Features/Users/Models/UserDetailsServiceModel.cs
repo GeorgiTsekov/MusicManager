@@ -12,5 +12,7 @@ namespace MusicManager.API.Features.Users.Models
 
         [Required]
         public string Email { get; set; }
+
+        public decimal Money { get; set; }
     }
 }

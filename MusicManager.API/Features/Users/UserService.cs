@@ -49,18 +49,19 @@ namespace MusicManager.API.Features.Users
 
         public async Task<UserDetailsServiceModel> UserDetails(string id)
         {
-            var user = this.data
+            var user = await this.data
                 .Users
                 .Where(u => u.Id == id)
                 .Select(t => new UserDetailsServiceModel
                 {
                     Id = t.Id,
                     UserName = t.UserName,
-                    Email = t.Email
+                    Email = t.Email,
+                    Money = t.Money
                 })
                 .FirstOrDefaultAsync();
 
-            return await user;
+            return user;
         }
 
         public string GetCurrentUserId()
@@ -71,18 +72,19 @@ namespace MusicManager.API.Features.Users
         public async Task<UserDetailsServiceModel> GetCurrentUserDetails()
         {
             var id = this.GetCurrentUserId();
-            var user = this.data
+            var user = await this.data
                 .Users
                 .Where(u => u.Id == id)
                 .Select(t => new UserDetailsServiceModel
                 {
                     Id = t.Id,
                     UserName = t.UserName,
-                    Email = t.Email
+                    Email = t.Email,
+                    Money = t.Money
                 })
                 .FirstOrDefaultAsync();
 
-            return await user;
+            return user;
         }
     }
 }

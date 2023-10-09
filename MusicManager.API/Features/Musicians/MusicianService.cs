@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicManager.API.Common.Repositories;
 using MusicManager.API.Data;
+using MusicManager.API.Data.Enums;
 using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Users;
+using System.Globalization;
 
 namespace MusicManager.API.Features.Musicians
 {
@@ -10,6 +12,21 @@ namespace MusicManager.API.Features.Musicians
     {
         public MusicianService(MusicManagerDbContext db, IUserService userService) : base(db, userService)
         {
+        }
+
+        public async override Task<Musician> CreateAsync(Musician entity)
+        {
+            var band = await DbContext.Bands.FirstOrDefaultAsync(b => b.Id == entity.BandId);
+            var musiciansCount = band.Musicians.Count;
+            var dailyRent = (int)entity.DailyRent;
+            entity.MusicalInstrumentType = Enum.Parse<MusicalInstrumentType>((musiciansCount + 1).ToString());
+
+            var random = new Random();
+            entity.Ambition = random.Next(0, (dailyRent / 2) + 1);
+            entity.Talant = random.Next(0, (dailyRent / 2) + 1 - entity.Ambition);
+            entity.Compatibility = dailyRent - (entity.Talant + entity.Ambition);
+
+            return await base.CreateAsync(entity);
         }
 
         public async override Task<IList<Musician>> AllAsync()

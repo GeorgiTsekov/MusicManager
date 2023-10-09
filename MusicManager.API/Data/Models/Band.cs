@@ -1,6 +1,6 @@
 ﻿using MusicManager.API.Common.Models;
-using MusicManager.API.Data.Enums;
 using MusicManager.API.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Data.Models
 {
@@ -13,12 +13,21 @@ namespace MusicManager.API.Data.Models
             Energy = MMConstants.DEFAULT_ENERGY;
         }
 
+        [Required]
         public string Name { get; set; }
-        public Style Style { get; set; }
-        public int Energy { get; private set; }
+
+        public string Style { get; set; }
+
+        public int Energy { get; set; }
+
+        [Required]
         public string UserId { get; set; }
+
+        [Required]
         public virtual User User { get; set; }
+
         public virtual ICollection<Musician> Musicians { get; set; }
+
         public virtual ICollection<Album> Albums { get; set; }
     }
 }

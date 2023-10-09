@@ -1,4 +1,6 @@
 ﻿using MusicManager.API.Common.Models;
+using MusicManager.API.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Data.Models
 {
@@ -6,13 +8,20 @@ namespace MusicManager.API.Data.Models
     {
         public Song()
         {
-            this.Sound = "sound";
         }
 
+        [Required]
         public string Name { get; set; }
+
         public int TrainingLevel { get; set; }
+
+        public SongType Style { get; set; }
+
         public string Sound { get; set; }
+
         public int AlbumId { get; set; }
+
+        [Required]
         public virtual Album Album { get; set; }
     }
 }

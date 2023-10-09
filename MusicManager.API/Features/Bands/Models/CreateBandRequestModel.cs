@@ -1,5 +1,4 @@
-﻿using MusicManager.API.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Bands.Models
 {
@@ -10,7 +9,6 @@ namespace MusicManager.API.Features.Bands.Models
         [MaxLength(20)]
         public string Name { get; set; }
 
-        [Range(1, 3)]
-        public Style Style { get; set; }
+        public string Style { get; set; }
     }
 }
