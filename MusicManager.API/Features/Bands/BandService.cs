@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MusicManager.API.Common.Repositories;
+using MusicManager.API.BaseRepositories;
 using MusicManager.API.Data;
-using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Users;
+using MusicManager.Data.Models;
 
 namespace MusicManager.API.Features.Bands
 {

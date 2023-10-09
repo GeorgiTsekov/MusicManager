@@ -1,6 +1,6 @@
-﻿using MusicManager.API.Common.Models;
-using MusicManager.API.Features.Albums.Models;
+﻿using MusicManager.API.Features.Albums.Models;
 using MusicManager.API.Features.Musicians.Models;
+using MusicManager.Infrastructure.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Bands.Models

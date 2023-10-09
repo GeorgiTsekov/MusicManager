@@ -23,4 +23,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MusicManager.Data\MusicManager.Data.csproj" />
+    <ProjectReference Include="..\MusicManager.Infrastructure\MusicManager.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

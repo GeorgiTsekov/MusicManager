@@ -1,5 +1,4 @@
-﻿using MusicManager.API.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Bands.Models
 {

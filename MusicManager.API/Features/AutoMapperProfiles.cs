@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Albums.Models;
 using MusicManager.API.Features.Bands.Models;
 using MusicManager.API.Features.Musicians.Models;
 using MusicManager.API.Features.Songs.Models;
+using MusicManager.Data.Models;
 
 namespace MusicManager.API.Features
 {

@@ -1,4 +1,4 @@
-﻿using MusicManager.API.Common.Models;
+﻿using MusicManager.Infrastructure.Models;
 
 namespace MusicManager.API.Features.Songs.Models
 {

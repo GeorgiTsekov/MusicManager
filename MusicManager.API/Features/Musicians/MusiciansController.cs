@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MusicManager.API.Common.CustomActionFilters;
-using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians.Models;
-using MusicManager.API.Utils;
+using MusicManager.Data.Models;
+using MusicManager.Infrastructure.CustomActionFilters;
+using MusicManager.Infrastructure.Utils;
 
 namespace MusicManager.API.Features.Musicians
 {
@@ -89,8 +88,8 @@ namespace MusicManager.API.Features.Musicians
 
             var model = mapper.Map<Musician>(createModelRequestDto);
             model.CreatedBy = user.Email;
-            model.BandId = band.Id; 
-            
+            model.BandId = band.Id;
+
             if (band.Musicians.Count >= 6)
             {
                 return BadRequest("Too many musicians!");
