@@ -1,4 +1,4 @@
-﻿using MusicManager.Data.Enums;
+﻿using MusicManager.API.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicManager.API.Features.Musicians.Models

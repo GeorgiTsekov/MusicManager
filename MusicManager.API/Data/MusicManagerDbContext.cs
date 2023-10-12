@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MusicManager.Data.Models;
-using MusicManager.Infrastructure.Utils;
+using MusicManager.API.Data.Models;
+using MusicManager.API.Infrastructures.Utils;
 
 namespace MusicManager.API.Data
 {
     public class MusicManagerDbContext : IdentityDbContext
     {
-
         public MusicManagerDbContext(DbContextOptions<MusicManagerDbContext> options)
             : base(options)
         {

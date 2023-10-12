@@ -1,5 +1,5 @@
 ﻿using MusicManager.API.Features.Songs.Models;
-using MusicManager.Infrastructure.Models;
+using MusicManager.API.Infrastructures.Models;
 
 namespace MusicManager.API.Features.Albums.Models
 {

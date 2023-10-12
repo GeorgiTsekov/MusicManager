@@ -1,5 +1,5 @@
-﻿using MusicManager.Data.Enums;
-using MusicManager.Infrastructure.Models;
+﻿using MusicManager.API.Data.Enums;
+using MusicManager.API.Infrastructures.Models;
 
 namespace MusicManager.API.Features.Musicians.Models
 {

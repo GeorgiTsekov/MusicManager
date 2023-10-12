@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Bands;
 using MusicManager.API.Features.Musicians.Models;
-using MusicManager.Data.Models;
-using MusicManager.Infrastructure.CustomActionFilters;
-using MusicManager.Infrastructure.Utils;
+using MusicManager.API.Infrastructures.CustomActionFilters;
+using MusicManager.API.Infrastructures.Utils;
 
 namespace MusicManager.API.Features.Musicians
 {

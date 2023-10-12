@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MusicManager.Infrastructure.Models
+namespace MusicManager.API.Infrastructures.Models
 {
     public abstract class BaseModel<TKey> : IEntity
     {

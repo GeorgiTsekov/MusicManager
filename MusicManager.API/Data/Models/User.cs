@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MusicManager.Infrastructure.Models;
-using MusicManager.Infrastructure.Utils;
+using MusicManager.API.Infrastructures.Models;
+using MusicManager.API.Infrastructures.Utils;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MusicManager.Data.Models
+namespace MusicManager.API.Data.Models
 {
     public class User : IdentityUser, IEntity, IDeletableEntity
     {

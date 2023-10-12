@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicManager.API.Data;
 using MusicManager.API.Features.Users;
-using MusicManager.Infrastructure.Models;
+using MusicManager.API.Infrastructures.Models;
 
 namespace MusicManager.API.BaseRepositories
 {

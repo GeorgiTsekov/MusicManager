@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicManager.API.Data;
-using MusicManager.Data;
 
 #nullable disable
 

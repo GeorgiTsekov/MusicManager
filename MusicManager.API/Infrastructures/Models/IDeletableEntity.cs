@@ -1,4 +1,4 @@
-﻿namespace MusicManager.Infrastructure.Models
+﻿namespace MusicManager.API.Infrastructures.Models
 {
     public interface IDeletableEntity
     {

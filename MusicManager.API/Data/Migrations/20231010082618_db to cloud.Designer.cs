@@ -3,18 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicManager.API.Data;
-using MusicManager.Data;
 
 #nullable disable
 
 namespace MusicManager.API.Migrations
 {
     [DbContext(typeof(MusicManagerDbContext))]
-    partial class MusicManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231010082618_db to cloud")]
+    partial class dbtocloud
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +247,7 @@ namespace MusicManager.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Album", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Album", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -293,7 +295,7 @@ namespace MusicManager.API.Migrations
                     b.ToTable("Albums");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Band", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Band", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -345,7 +347,7 @@ namespace MusicManager.API.Migrations
                     b.ToTable("Bands");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Musician", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Musician", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -406,7 +408,7 @@ namespace MusicManager.API.Migrations
                     b.ToTable("Musicians");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Song", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Song", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -460,7 +462,7 @@ namespace MusicManager.API.Migrations
                     b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.User", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -545,9 +547,9 @@ namespace MusicManager.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Album", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Album", b =>
                 {
-                    b.HasOne("MusicManager.API.Data.Models.Band", "Band")
+                    b.HasOne("MusicManager.Data.Models.Band", "Band")
                         .WithMany("Albums")
                         .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -556,9 +558,9 @@ namespace MusicManager.API.Migrations
                     b.Navigation("Band");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Band", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Band", b =>
                 {
-                    b.HasOne("MusicManager.API.Data.Models.User", "User")
+                    b.HasOne("MusicManager.Data.Models.User", "User")
                         .WithMany("Bands")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -567,9 +569,9 @@ namespace MusicManager.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Musician", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Musician", b =>
                 {
-                    b.HasOne("MusicManager.API.Data.Models.Band", "Band")
+                    b.HasOne("MusicManager.Data.Models.Band", "Band")
                         .WithMany("Musicians")
                         .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -578,9 +580,9 @@ namespace MusicManager.API.Migrations
                     b.Navigation("Band");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Song", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Song", b =>
                 {
-                    b.HasOne("MusicManager.API.Data.Models.Album", "Album")
+                    b.HasOne("MusicManager.Data.Models.Album", "Album")
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -589,19 +591,19 @@ namespace MusicManager.API.Migrations
                     b.Navigation("Album");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Album", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Album", b =>
                 {
                     b.Navigation("Songs");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.Band", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.Band", b =>
                 {
                     b.Navigation("Albums");
 
                     b.Navigation("Musicians");
                 });
 
-            modelBuilder.Entity("MusicManager.API.Data.Models.User", b =>
+            modelBuilder.Entity("MusicManager.Data.Models.User", b =>
                 {
                     b.Navigation("Bands");
                 });

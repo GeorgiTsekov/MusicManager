@@ -1,8 +1,8 @@
-﻿using MusicManager.Infrastructure.Models;
-using MusicManager.Infrastructure.Utils;
+﻿using MusicManager.API.Infrastructures.Models;
+using MusicManager.API.Infrastructures.Utils;
 using System.ComponentModel.DataAnnotations;
 
-namespace MusicManager.Data.Models
+namespace MusicManager.API.Data.Models
 {
     public class Band : BaseDeletableModel<int>
     {

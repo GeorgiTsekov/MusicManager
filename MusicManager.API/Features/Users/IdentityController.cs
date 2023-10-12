@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Users.Models;
-using MusicManager.Data.Models;
-using MusicManager.Infrastructure.Utils;
+using MusicManager.API.Infrastructures.Utils;
 
 namespace MusicManager.API.Features.Users
 {

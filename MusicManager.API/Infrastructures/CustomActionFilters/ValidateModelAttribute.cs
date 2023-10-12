@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace MusicManager.Infrastructure.CustomActionFilters
+namespace MusicManager.API.Infrastructures.CustomActionFilters
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {

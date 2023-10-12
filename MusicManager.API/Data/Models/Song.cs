@@ -1,8 +1,8 @@
-﻿using MusicManager.Data.Enums;
-using MusicManager.Infrastructure.Models;
+﻿using MusicManager.API.Data.Enums;
+using MusicManager.API.Infrastructures.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace MusicManager.Data.Models
+namespace MusicManager.API.Data.Models
 {
     public class Song : BaseDeletableModel<int>
     {

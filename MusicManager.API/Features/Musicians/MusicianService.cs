@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicManager.API.BaseRepositories;
 using MusicManager.API.Data;
+using MusicManager.API.Data.Enums;
+using MusicManager.API.Data.Models;
 using MusicManager.API.Features.Users;
-using MusicManager.Data.Enums;
-using MusicManager.Data.Models;
 
 namespace MusicManager.API.Features.Musicians
 {

@@ -1,4 +1,4 @@
-﻿namespace MusicManager.Data.Enums
+﻿namespace MusicManager.API.Data.Enums
 {
     public enum MusicalInstrumentType
     {
